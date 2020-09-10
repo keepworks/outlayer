@@ -163,23 +163,23 @@ proto.layoutPosition = function() {
 
   // x
   var xPadding = isOriginLeft ? 'paddingLeft' : 'paddingRight';
-  var xProperty = isOriginLeft ? 'left' : 'right';
-  var xResetProperty = isOriginLeft ? 'right' : 'left';
+  var xProperty = isOriginLeft ? (this.layout.options.percentPosition && this.layout._getOption('horizontal') ? 'left' : 'transform') : 'right';
+  var xResetProperty = isOriginLeft ? 'right' : (this.layout.options.percentPosition && this.layout._getOption('horizontal') ? 'left' : 'transform');
 
   var x = this.position.x + layoutSize[ xPadding ];
   // set in percentage or pixels
-  style[ xProperty ] = this.getXValue( x );
+  style[ xProperty ] = xProperty === 'transform' ? `translateX(${this.getXValue( x )})` : this.getXValue( x );
   // reset other property
   style[ xResetProperty ] = '';
 
   // y
   var yPadding = isOriginTop ? 'paddingTop' : 'paddingBottom';
-  var yProperty = isOriginTop ? 'top' : 'bottom';
-  var yResetProperty = isOriginTop ? 'bottom' : 'top';
+  var yProperty = isOriginTop ? (this.layout.options.percentPosition && !this.layout._getOption('horizontal') ? 'top' : 'transform') : 'bottom';
+  var yResetProperty = isOriginTop ? 'bottom' : (this.layout.options.percentPosition && !this.layout._getOption('horizontal') ? 'top' : 'transform');
 
   var y = this.position.y + layoutSize[ yPadding ];
   // set in percentage or pixels
-  style[ yProperty ] = this.getYValue( y );
+  style[ yProperty ] = yProperty === 'transform' ? `translateY(${this.getYValue( y )})` : this.getYValue( y );
   // reset other property
   style[ yResetProperty ] = '';
 
